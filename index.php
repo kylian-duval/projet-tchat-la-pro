@@ -77,11 +77,6 @@ Released   : 20130902
 			<div id="featured">
 				<div class="title">
 					<h2>Maecenas lectus sapien</h2>
-					<?php 
-					echo $_SESSION['id_user'];
-					echo $_SESSION['ADMIN'];
-					echo $_SESSION['login'];
-					?>
 					<span class="byline">Integer sit amet aliquet pretium</span>
 				</div>
 				<ul class="style1">
