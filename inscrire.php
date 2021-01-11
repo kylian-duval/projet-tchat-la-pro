@@ -10,41 +10,47 @@
         <title>Inscription</title>
         <!--ajout du css pour le style -->
         <link rel="stylesheet" href="inscrire.css">
+        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+        <link href="default.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
         <!--ajout des fonction php + appel fonction pour se connecter a la bdd -->
-        <?php include "fonction.php";
-        $BDD = connectionbdd(); ?>
+        <?php require 'fonction.php' ?>
     </head>
-    <?php if (isset($_SESSION['login'])) { ?>
+    <?php $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki'); ?>
 
-        <body>
-            <?php menuco($BDD); ?>
-            <h2 class='error' align=center>vous êtes déja inscrit</h2>
-
-        <?php } else { ?>
-            <div class="login-box">
-                <h2>Inscription</h2>
-                <form action="" method="POST">
-                    <div class="user-box">
-                        <input type="text" name="LOGIN" required>
-                        <label>Nom</label>
-                    </div>
-                    <div class="user-box">
-                        <input type="password" name="MDP" required>
-                        <label>Mot de passe</label>
-                    </div>
-                    <div class="user-box">
-                        <input type="password" name="CONFMDP" required>
-                        <label>Confirmer mot de passe</label>
-                    </div>
-                    <input class="button" type="submit" name="inscrir" value="S'inscrire">
-                    <a href="index.php">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Accueil
-                    </a>
-                </form>
+    <body>
+        <div class="login-box">
+            <h2>Inscription</h2>
+            <form action="" method="POST">
+                <div class="user-box">
+                    <input type="text" name="NOM" required>
+                    <label>Nom</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="PRENOM" required>
+                    <label>Prénom</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="LOGIN" required>
+                    <label>Identifiant</label>
+                </div>
+                <div class="user-box">
+                    <input type="password" name="MDP" required>
+                    <label>Mot de passe</label>
+                </div>
+                <div class="user-box">
+                    <input type="password" name="CONFMDP" required>
+                    <label>Confirmer mot de passe</label>
+                </div>
+                <input class="button" type="submit" name="inscrir" value="S'inscrire">
+                <a href="index.php">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Se connecter
+                </a>
+            </form>
             <?php
             // vérifi sur le mots de passe et le confi mots de passe son les même
             if (isset($_POST['inscrir'])) {
@@ -53,14 +59,22 @@
                     if ($_POST['MDP'] != $_POST['CONFMDP']) {
                         echo "<div class='error'>les deux mots de passe ne correspondent pas</div>";
                     } else {
-                        verifUser($BDD);
+                        $requeteMail = $BDD->prepare("SELECT * FROM user WHERE Pseudo = ?");
+                        $requeteMail->execute(array($_POST['LOGIN']));
+                        $userExist = $requeteMail->rowCount();
+                        if ($userExist != 1) {
+                            echo "<div class = 'error'>merci de votre inscription</div>";
+                            inscription($_POST['NOM'],$_POST['PRENOM'],$_POST['LOGIN'], $_POST['CONFMDP'], $BDD); 
+                        } else {
+                            echo "<div class = 'error'>cette Identifiant est utiliser par quelqu'un veuiller choisi un autre </div>";
+                        }
                     }
                 }
             }
-        }
+
             ?>
-            </div>
-        </body>
+        </div>
+    </body>
 
 
     </html>
