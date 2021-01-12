@@ -564,3 +564,10 @@
 		color: #000;
 		background: red;
 	}
+	textarea {
+		resize: both;
+		min-width: 750px;
+		min-height: 200px;
+		max-width: 750px;
+		max-height: 200px;
+	}

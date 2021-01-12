@@ -1,5 +1,5 @@
 <?php session_start();
-if(!isset($_SESSION['id_user'])){
+if (!isset($_SESSION['id_user'])) {
 	header('Location: connection.php');
 }
 
@@ -41,7 +41,7 @@ Released   : 20130902
 		<div id="header">
 			<div id="logo">
 				<img src="images/pic02.jpg" alt="" />
-				<h1><a href="#">Privy</a></h1>
+				<h1 style="color: white;"><?php echo $_SESSION['Pseudo'] ?></h1>
 				<span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a></span>
 			</div>
 			<div id="menu">
@@ -53,7 +53,7 @@ Released   : 20130902
 					<li><a href="contact.php" accesskey="5" title="">Contact</a></li>
 					<form action="" method="post">
 						<button type='sumbmit' name="deco">
-							<li><a accesskey="5" title="">Déconnection</a></li>
+							<li><a accesskey="6" title="">Déconnection</a></li>
 						</button>
 						<input class="button" type="submit" name="deco" value="Déconnection">
 					</form>
@@ -103,10 +103,33 @@ Released   : 20130902
 				</ul>
 			</div>
 			<div id="copyright">
-				<span>&copy; Untitled. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a></span>
-				<span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</span>
+				<form action="" method="POST">
+					<div><textarea id="msg" name="message" type="text" style="height:80px;" id="formulaire.txt" name="formulaire.txt" required minlength="0"></textarea></div>
+					<div class="centrer"><input class="button" type="submit" name="envoyer" value="envoyer" /></div>
+				</form>
+				<?php
+				if (isset($_POST['envoyer'])) {
+					$jour = date('d');
+					$mois = date('m');
+					$annee = date('Y');
+					$heur = date('H');
+					$minute = date('i');
+					$seconde = date('i');
+
+					$id_user = $_SESSION['id_user'];
+					$message = $_POST["message"];
+					$BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
+					$roquette = ("INSERT INTO `message` (`id_user`, `message`, `date`) VALUES ('$id_user', '$message', '$annee-$mois-$jour $heur:$minute:$seconde') ");
+					$BDD->query("$roquette");
+				}
+
+				//SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user  
+				//ORDER BY `message`.`date` DESC
+				?>
+
 			</div>
 		</div>
+
 	</div>
 </body>
 
