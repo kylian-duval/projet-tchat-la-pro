@@ -7,6 +7,7 @@ if (isset($_POST['deco'])) {
 	session_destroy();
 	echo '<meta http-equiv="refresh" content="0">';
 }
+$BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -46,22 +47,18 @@ Released   : 20130902
 			</div>
 			<div id="menu">
 				<ul>
-					<li class="current_page_item"><a href="#" accesskey="1" title="">Homepage</a></li>
-					<li><a href="index.php" accesskey="2" title="">tchat</a></li>
-					<li><a href="#" accesskey="3" title="">s'inscrire</a></li>
+					<li class="current_page_item"><a href="index.phptre" accesskey="1" title="">tchat</a></li>
+					<li><a href="index.php" accesskey="2" title="">image</a></li>
 					<li><a href="mon_compte.php" accesskey="4" title="">mon compte</a></li>
 					<li><a href="contact.php" accesskey="5" title="">Contact</a></li>
 					<form action="" method="post">
-						<button type='sumbmit' name="deco">
-							<li><a accesskey="6" title="">Déconnection</a></li>
-						</button>
 						<input class="button" type="submit" name="deco" value="Déconnection">
 					</form>
 				</ul>
 			</div>
 		</div>
 		<div id="main">
-			<div id="banner">
+			<!--<div id="banner">
 				<img src="images/pic01.jpg" alt="" class="image-full" />
 			</div>
 			<div id="welcome">
@@ -73,19 +70,24 @@ Released   : 20130902
 				<ul class="actions">
 					<li><a href="#" class="button">Etiam posuere</a></li>
 				</ul>
-			</div>
+			</div>-->
 			<div id="featured">
 				<div class="title">
 					<h2>Maecenas lectus sapien</h2>
 					<span class="byline">Integer sit amet aliquet pretium</span>
 				</div>
+				
 				<ul class="style1">
-					<li class="first">
-						<p class="date"><a href="#">Jan<b>05</b></a></p>
-						<h3>Amet sed volutpat mauris</h3>
-						<p><a href="#">Consectetuer adipiscing elit. Nam pede erat, porta eu, lobortis eget, tempus et, tellus. Etiam neque. Vivamus consequat lorem at nisl. Nullam non wisi a sem semper eleifend. Etiam non felis. Donec ut ante.</a></p>
-					</li>
+				<?php $request = $BDD->query("SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` ASC"); 
+				while ($tab = $request->fetch()) { ?>
 					<li>
+						<p class="date"><?php echo $tab['date'] ?></p>
+						<h3><?php echo $tab['Pseudo'] ?> </h3>
+						<p><?php echo $tab['message'] ?></p>
+					</li>
+					<?php  } ?>
+
+					<!--<li>
 						<p class="date"><a href="#">Jan<b>03</b></a></p>
 						<h3>Sagittis diam dolor amet</h3>
 						<p><a href="#">Etiam non felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem. Mauris quam enim, molestie. Donec leo, vivamus fermentum nibh in augue praesent congue rutrum.</a></p>
@@ -99,7 +101,7 @@ Released   : 20130902
 						<p class="date"><a href="#">Dec<b>31</b></a></p>
 						<h3>Sagittis diam dolor amet</h3>
 						<p><a href="#">Etiam non felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem. Mauris quam enim, molestie. Donec leo, vivamus fermentum nibh in augue praesent congue rutrum.</a></p>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 			<div id="copyright">
@@ -114,13 +116,13 @@ Released   : 20130902
 					$annee = date('Y');
 					$heur = date('H');
 					$minute = date('i');
-					$seconde = date('i');
-
+					$seconde = date('s');
+					$dates = date('Y-m-d H:i:s');
 					$id_user = $_SESSION['id_user'];
 					$message = $_POST["message"];
-					$BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
-					$roquette = ("INSERT INTO `message` (`id_user`, `message`, `date`) VALUES ('$id_user', '$message', '$annee-$mois-$jour $heur:$minute:$seconde') ");
+					$roquette = ("INSERT INTO `message` (`id_user`, `message`, `date`) VALUES ('$id_user', '$message', '$dates') ");
 					$BDD->query("$roquette");
+					echo '<meta http-equiv="refresh" content="0">';
 				}
 
 				//SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user  

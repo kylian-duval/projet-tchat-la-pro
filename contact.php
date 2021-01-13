@@ -1,5 +1,18 @@
 <?php try {
 ?>
+<?php
+session_start();
+if (!isset($_SESSION['id_user'])) {
+	header('Location: connection.php');
+}
+
+if (isset($_POST['deco'])) {
+	session_destroy();
+	echo '<meta http-equiv="refresh" content="0">';
+}
+$BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
+require 'fonction.php';
+?>
     <!DOCTYPE html>
     <html lang="fr">
 
@@ -10,13 +23,11 @@
         <!--ajout du css pour le style-->
         <link rel="stylesheet" href="contact.css">
         <!--ajout des fonction php + appel pour se connecter a la bdd-->
-        <?php include "fonction.php";
-        connectionbdd(); ?>
+        
     </head>
 
     <body>
-    <!--affiche le menu de navigation-->
-        <?php menuco($BDD); ?>
+    
         <div class="login-box">
             <h2>Nous Conctater</h2>
             <form action="" method="post">
