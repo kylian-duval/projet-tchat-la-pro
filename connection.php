@@ -71,6 +71,7 @@
                     $_SESSION['id_user'] = $userexist['id_user'];
                     $_SESSION['Pseudo'] = $userexist['Pseudo'];
                     $_SESSION['ADMIN'] = $userexist['ADMIN'];
+                    $_SESSION['logo'] = $userexist['logo'];
                     //header('Location: index.php');
                     echo '<meta http-equiv="refresh" content="0">';
                 } else {
