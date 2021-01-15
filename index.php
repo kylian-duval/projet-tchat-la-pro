@@ -10,23 +10,13 @@ if (isset($_POST['deco'])) {
 $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<!--
-Design by TEMPLATED
-http://templated.co
-Released for free under the Creative Commons Attribution License
+<!DOCTYPE >
 
-Name       : Skeleton 
-Description: A two-column, fixed-width design with dark color scheme.
-Version    : 1.0
-Released   : 20130902
-
--->
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title></title>
+	<title>TCHAT</title>
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
@@ -43,7 +33,7 @@ Released   : 20130902
 			<div id="logo">
 				<img src="images/pic02.jpg" alt="" />
 				<h1 style="color: white;"><?php echo $_SESSION['Pseudo'] ?></h1>
-				<span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a></span>
+				
 			</div>
 			<div id="menu">
 				<ul>
@@ -51,6 +41,10 @@ Released   : 20130902
 					<li><a href="index.php" accesskey="2" title="">image</a></li>
 					<li><a href="mon_compte.php" accesskey="4" title="">mon compte</a></li>
 					<li><a href="contact.php" accesskey="5" title="">Contact</a></li>
+					<?php  if ($_SESSION['ADMIN'] == 'true') { ?>
+						<li><a href="admin.php" accesskey="4" title="">admin</a></li>
+						<li><a href="message.php" accesskey="5" title="">boite de réseption</a></li>
+					<?php } ?>
 					<form action="" method="post">
 						<input class="button" type="submit" name="deco" value="Déconnection">
 					</form>
@@ -58,50 +52,24 @@ Released   : 20130902
 			</div>
 		</div>
 		<div id="main">
-			<!--<div id="banner">
-				<img src="images/pic01.jpg" alt="" class="image-full" />
-			</div>
-			<div id="welcome">
-				<div class="title">
-					<h2>Fusce ultrices fringilla metus</h2>
-					<span class="byline">Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue</span>
-				</div>
-				<p>This is <strong>Privy</strong>, a free, fully standards-compliant CSS template designed by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>. The photos in this template are from <a href="http://fotogrph.com/"> Fotogrph</a>. This free template is released under the <a href="http://templated.co/license">Creative Commons Attribution</a> license, so you're pretty much free to do whatever you want with it (even use it commercially) provided you give us credit for it. Have fun :) </p>
-				<ul class="actions">
-					<li><a href="#" class="button">Etiam posuere</a></li>
-				</ul>
-			</div>-->
+			
 			<div id="featured">
 				<div class="title">
-					<h2>Maecenas lectus sapien</h2>
-					<span class="byline">Integer sit amet aliquet pretium</span>
+					<h2>Le tchat des SN</h2>
+					<span class="byline">dite un mots</span>
 				</div>
-				
+
 				<ul class="style1">
-				<?php $request = $BDD->query("SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` ASC"); 
-				while ($tab = $request->fetch()) { ?>
-					<li>
-						<p class="date"><?php echo $tab['date'] ?></p>
-						<h3><?php echo $tab['Pseudo'] ?> </h3>
-						<p><?php echo $tab['message'] ?></p>
-					</li>
+					<?php  $request = $BDD->query("SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` ASC");
+					while ($tab = $request->fetch()) { ?>
+						<li>
+							<p class="date"><?php echo $tab['date'] ?></p>
+							<h3><?php echo $tab['Pseudo'] ?> </h3>
+							<p><?php echo $tab['message'] ?></p>
+						</li>
 					<?php  } ?>
 
-					<!--<li>
-						<p class="date"><a href="#">Jan<b>03</b></a></p>
-						<h3>Sagittis diam dolor amet</h3>
-						<p><a href="#">Etiam non felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem. Mauris quam enim, molestie. Donec leo, vivamus fermentum nibh in augue praesent congue rutrum.</a></p>
-					</li>
-					<li>
-						<p class="date"><a href="#">Jan<b>01</b></a></p>
-						<h3>Amet sed volutpat mauris</h3>
-						<p><a href="#">Consectetuer adipiscing elit. Nam pede erat, porta eu, lobortis eget, tempus et, tellus. Etiam neque. Vivamus consequat lorem at nisl. Nullam non wisi a sem semper eleifend. Etiam non felis. Donec ut ante.</a></p>
-					</li>
-					<li>
-						<p class="date"><a href="#">Dec<b>31</b></a></p>
-						<h3>Sagittis diam dolor amet</h3>
-						<p><a href="#">Etiam non felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem. Mauris quam enim, molestie. Donec leo, vivamus fermentum nibh in augue praesent congue rutrum.</a></p>
-					</li> -->
+					
 				</ul>
 			</div>
 			<div id="copyright">
@@ -109,21 +77,15 @@ Released   : 20130902
 					<div><textarea id="msg" name="message" type="text" style="height:80px;" id="formulaire.txt" name="formulaire.txt" required minlength="0"></textarea></div>
 					<div class="centrer"><input class="button" type="submit" name="envoyer" value="envoyer" /></div>
 				</form>
-				<?php
+				<?php 
 				if (isset($_POST['envoyer'])) {
-					$jour = date('d');
-					$mois = date('m');
-					$annee = date('Y');
-					$heur = date('H');
-					$minute = date('i');
-					$seconde = date('s');
 					$dates = date('Y-m-d H:i:s');
 					$id_user = $_SESSION['id_user'];
-					$message = $_POST["message"];
-					$roquette = ("INSERT INTO `message` (`id_user`, `message`, `date`) VALUES ('$id_user', '$message', '$dates') ");
+					$roquette = ("INSERT INTO `message` (`id_user`, `message`, `date`) VALUES ('$id_user',\"" . $_POST['message'] . "\", '$dates') ");
 					$BDD->query("$roquette");
 					echo '<meta http-equiv="refresh" content="0">';
 				}
+
 
 				//SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user  
 				//ORDER BY `message`.`date` DESC

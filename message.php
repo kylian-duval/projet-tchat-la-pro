@@ -1,10 +1,14 @@
-<?php try {
+<?php try { 
+    session_start();
+    session_start();
+    if (!isset($_SESSION['id_user'] )) {
+      header('Location: index.php');
+    }
+    if($_SESSION['ADMIN'] =='false'){
+      header('Location: index.php');
+  }
 ?>
     <?php
-     /*if (!isset($_SESSION['id_user'])) {
-        header('Location: connection.php');
-    }*/
-
     if (isset($_POST['deco'])) {
         session_destroy();
         echo '<meta http-equiv="refresh" content="0">';
@@ -20,6 +24,7 @@
         <title>Message</title>
         <!--ajout du css pour le style -->
         <link rel="stylesheet" href="message.css">
+        <link rel="stylesheet" href="admin.css">
         <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
         <link href="default.css" rel="stylesheet" type="text/css" media="all" />
         <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
@@ -76,7 +81,7 @@
                         }
                     }
 
-                    $BDD->query("DELETE FROM `contact` WHERE id_Contact IN(" . $checkoptions . ")");
+                    $test =$BDD->query("DELETE FROM `contact` WHERE id_contact IN(" . $checkoptions . ")");
                     echo '<meta http-equiv="refresh" content="0">';
                 }
 
