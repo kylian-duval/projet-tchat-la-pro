@@ -19,15 +19,16 @@
     <head>
         <meta charset="UTF-8">
         <!--inclure le ficher css pour le style de la page 
-        <link rel="stylesheet" href="admin.css">
+        <link rel="stylesheet" href="admin.css">-->
         <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
         <link href="default.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />-->
+        <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Espace Admin</title>
     </head>
 
     <body>
+    
         <!--on teste sur le user et connecter et si il est admin -->
         <?php
         $request = $BDD->query("SELECT * FROM `user` WHERE 1"); ?>
@@ -168,88 +169,6 @@
                 echo '<meta http-equiv="refresh" content="0">';
             }
             ?>
-            <h1>Par quelle methode vous aller vous ajouter un film ?</h1>
-            <form action="" method="POST">
-                <p><span> via lien internet:</span> <input type="submit" name="lien" value="lien" /> <span>ou </span><span>via uploade de fichier: </span><input type="submit" name="uplode" value="uplode" /></p>
-            </form>
-            <form action="" method="POST">
-                <?php if (isset($_POST['lien'])) { ?>
-
-                    <input type="text" name="nom" placeholder="entre le nom du film" required>
-                    <input type="text" name="affiche" placeholder="entre lien de l'affiche du film" required>
-                    <input type="text" name="auteur" placeholder="entre l'auteur du film" required>
-                    <input type="submit" name="EnvoiFilmLien" value="ajoute" />
-                <?php } ?>
-            </form>
-            <!--ajoute des film en utilisent des lien internet pour l'affiche du film -->
-            <?php if (isset($_POST['EnvoiFilmLien'])) {
-                $nom = $_POST['nom'];
-                $affiche = $_POST['affiche'];
-                $auteur = $_POST['auteur'];
-                $BDD->query("INSERT INTO `film`(`nom`, `imgSource`, `auteur`, `nb_vote`) VALUES ('$nom','$affiche','$auteur','0')");
-                echo '<meta http-equiv="refresh" content="0">';
-            } ?>
-
-            <form action="" method="POST" enctype="multipart/form-data">
-                <?php if (isset($_POST['uplode'])) { ?>
-
-                    <input type="text" name="nomUplod" placeholder="entre le nom du film" required>
-                    <input type="file" name="afficheUplode" required>
-                    <input type="text" name="auteurUplod" placeholder="entre l'auteur du film" required>
-                    <input type="submit" name="EnvoiFilmUplode" value="ajoute" />
-                <?php } ?>
-            </form>
-            <!--ajoute des film en utilisent l'uplaod pour l'affiche du film -->
-            <?php
-
-            if (isset($_POST['EnvoiFilmUplode'])) {
-
-                $maxSize = 900000;
-                $valideType = array('.jpg', '.jpeg', '.gif', '.png');
-
-                if ($_FILES['afficheUplode']['error'] > 0) {
-                    echo "une erreur est survenue lors du transfert";
-                    die;
-                }
-                $fileSize = $_FILES['afficheUplode']['size'];
-
-                if ($fileSize > $maxSize) {
-                    echo "les fichier est trop volumineux";
-                    die;
-                }
-
-                $fileType = "." . strtolower(substr(strrchr($_FILES['afficheUplode']['name'], '.'), 1));
-
-                if (!in_array($fileType, $valideType)) {
-                    echo "le fichier sélectionné n'est pas une image";
-                    die;
-                }
-                $tmpName = $_FILES['afficheUplode']['tmp_name'];
-                $Name = $_FILES['afficheUplode']['name'];
-                $fileName = "film/" . $Name;
-                $résultUplod = move_uploaded_file($tmpName, $fileName);
-                if ($résultUplod) {
-                    echo "transfere terminer";
-                }
-                $nomUplod = $_POST['nomUplod'];
-                $auteurUplod = $_POST['auteurUplod'];
-                $BDD->query("INSERT INTO `film`(`nom`, `imgSource`, `auteur`, `nb_vote`) VALUES ('$nomUplod','$fileName','$auteurUplod','0')");
-                echo '<meta http-equiv="refresh" content="0">';
-            } ?>
-
-
-            <form action="" method="post">
-                <h4> réinitialiser tout les votes c'est ici !!!</h4>
-                <input type="submit" name="réinitialiser" value="réinitialiser" />
-            </form>
-        </div>
-        <!--résinaliser les vote-->
-        <?php if (isset($_POST['réinitialiser'])) {
-
-            $BDD->query("UPDATE `user` SET `vote`='non'");
-            $BDD->query("UPDATE `film` SET `nb_vote`='0'");
-            echo '<meta http-equiv="refresh" content="0">';
-        } ?>
 
         <!--trétement pour modifer un user -->
         <?php if (isset($_POST['modif_user'])) {
@@ -274,8 +193,7 @@
                 <?php while ($tab = $request->fetch()) { ?>
                     <input type="text" name="mofifiduser" readonly value="<?php echo $tab['id_user'] ?>">
                     <span>login:</span> <input type="text" name="modiflogin" value='<?php echo $tab['Pseudo'] ?> '>
-                    <span>mots de passe</span><input type="text" name="modifmdp" value='<?php echo $tab['password'] ?> '>
-                    <span>si il y a deja voté</span><input type="text" name="modifvote" value='<?php echo $tab['vote'] ?> '>
+                    <span>mots de passe</span><input type="text" name="modifmdp" value='<?php echo $tab['Mdp'] ?> '>
 
                 <?php } ?>
                 <input type="submit" name="finalmodifuser" value="modifier" />
@@ -288,9 +206,8 @@
 
             $modiflogin = $_POST['modiflogin'];
             $modifmdp = $_POST['modifmdp'];
-            $modifvote = $_POST['modifvote'];
             $mofifiduser = $_POST['mofifiduser'];
-            $BDD->query("UPDATE `user` SET `identifiant`= '$modiflogin' ,  `password` = '$modifmdp' , `vote`= '$modifvote' WHERE `id_user` =  $mofifiduser ");
+            $BDD->query("UPDATE `user` SET `Pseudo`= '$modiflogin' ,  `Mdp` = '$modifmdp'  WHERE `id_user` =  $mofifiduser ");
             echo '<meta http-equiv="refresh" content="0">';
         } ?>
 

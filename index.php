@@ -10,7 +10,7 @@ if (isset($_POST['deco'])) {
 $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
 ?>
 
-<!DOCTYPE >
+<!DOCTYPE>
 
 <html>
 
@@ -22,6 +22,7 @@ $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=ut
 	<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
 	<link href="default.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 	<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
@@ -31,17 +32,17 @@ $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=ut
 	<div id="page" class="container">
 		<div id="header">
 			<div id="logo">
-				<img src="images/pic02.jpg" alt="" />
+				<img src="<?php echo $_SESSION['logo'] ?>" alt="erreur chargement image" />
 				<h1 style="color: white;"><?php echo $_SESSION['Pseudo'] ?></h1>
-				
+
 			</div>
 			<div id="menu">
 				<ul>
 					<li class="current_page_item"><a href="index.phptre" accesskey="1" title="">tchat</a></li>
-					<li><a href="index.php" accesskey="2" title="">image</a></li>
 					<li><a href="mon_compte.php" accesskey="4" title="">mon compte</a></li>
 					<li><a href="contact.php" accesskey="5" title="">Contact</a></li>
-					<?php  if ($_SESSION['ADMIN'] == 'true') { ?>
+					<?php if ($_SESSION['ADMIN'] == 'true') { ?>
+						<li><a href="index.php" accesskey="2" title="">image</a></li>
 						<li><a href="admin.php" accesskey="4" title="">admin</a></li>
 						<li><a href="message.php" accesskey="5" title="">boite de réseption</a></li>
 					<?php } ?>
@@ -52,38 +53,24 @@ $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=ut
 			</div>
 		</div>
 		<div id="main">
-			
-			<div id="featured">
-				<div class="title">
-					<h2>Le tchat des SN</h2>
-					<span class="byline">dite un mots</span>
-				</div>
 
-				<ul class="style1">
-					<?php  $request = $BDD->query("SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` ASC");
-					while ($tab = $request->fetch()) { ?>
-						<li>
-							<p class="date"><?php echo $tab['date'] ?></p>
-							<h3><?php echo $tab['Pseudo'] ?> </h3>
-							<p><?php echo $tab['message'] ?></p>
-						</li>
-					<?php  } ?>
 
-					
-				</ul>
+			<div class="title">
+				<h2>Le tchat des SN</h2>
+				<span class="byline">dite un mots</span>
 			</div>
 			<div id="copyright">
 				<form action="" method="POST">
 					<div><textarea id="msg" name="message" type="text" style="height:80px;" id="formulaire.txt" name="formulaire.txt" required minlength="0"></textarea></div>
 					<div class="centrer"><input class="button" type="submit" name="envoyer" value="envoyer" /></div>
 				</form>
-				<?php 
+				<?php
 				if (isset($_POST['envoyer'])) {
 					$dates = date('Y-m-d H:i:s');
 					$id_user = $_SESSION['id_user'];
 					$roquette = ("INSERT INTO `message` (`id_user`, `message`, `date`) VALUES ('$id_user',\"" . $_POST['message'] . "\", '$dates') ");
 					$BDD->query("$roquette");
-					echo '<meta http-equiv="refresh" content="0">';
+					//echo '<meta http-equiv="refresh" content="0">';
 				}
 
 
@@ -92,6 +79,30 @@ $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=ut
 				?>
 
 			</div>
+			<div id="featured">
+				<ul class="style1">
+
+					<?php $request = $BDD->query("SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` DESC");
+					while ($tab = $request->fetch()) { ?>
+						<li>
+							<p class="date"><?php echo $tab['date'] ?></p>
+							<h3><?php echo $tab['Pseudo'] ?> </h3>
+							<p><?php echo $tab['message'] ?></p>
+						</li>
+					<?php  } ?>
+
+				</ul>
+				<script>
+					setInterval('load_messages()', 500);
+
+					function load_messages() {
+						$('#featured').load('instent.php');
+
+
+					}
+				</script>
+			</div>
+
 		</div>
 
 	</div>

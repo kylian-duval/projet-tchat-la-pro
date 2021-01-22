@@ -1,12 +1,12 @@
 <?php try {
 ?>
-<?php session_start();
-if (!isset($_SESSION['id_user'])) {
-	header('Location: connection.php');
-}
+    <?php session_start();
+    if (!isset($_SESSION['id_user'])) {
+        header('Location: connection.php');
+    }
 
-$BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
-?>
+    $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
+    ?>
     <!DOCTYPE html>
     <html lang="fr">
 
@@ -30,7 +30,7 @@ $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=ut
 
         <div class="login-box">
             <h2>Compte</h2>
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <div class="user-box">
                     <input type="password" name="Mdp">
                     <label>Nouveau Mot de passe</label>
@@ -39,6 +39,11 @@ $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=ut
                     <input type="password" name="ConfiMdp">
                     <label>Confirmer Mot de passe</label>
                 </div>
+                <div class="user-box">
+                    <input type="file" name="afficheUplode">
+                    <label>entrer votre nouveau logo</label>
+                </div>
+
 
                 <?php //trétement pour modifer le mots de passe
                 if (isset($_POST['MifMdp'])) {
@@ -53,8 +58,43 @@ $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=ut
 
 
                 ?>
+                <input type="submit" name="EnvoiFilmUplode" value="modif logo" class='lmyButton' />
                 <input class="lmyButton" type="submit" name="MifMdp" value="Modifier" />
             </form>
+            <?php
+            if (isset($_POST['EnvoiFilmUplode'])) {
+
+                $maxSize = 900000;
+                $valideType = array('.jpg', '.jpeg', '.gif', '.png');
+
+                if ($_FILES['afficheUplode']['error'] > 0) {
+                    echo "une erreur est survenue lors du transfert";
+                    die;
+                }
+                $fileSize = $_FILES['afficheUplode']['size'];
+
+                if ($fileSize > $maxSize) {
+                    echo "les fichier est trop volumineux";
+                    die;
+                }
+
+                $fileType = "." . strtolower(substr(strrchr($_FILES['afficheUplode']['name'], '.'), 1));
+
+                if (!in_array($fileType, $valideType)) {
+                    echo "le fichier sélectionné n'est pas une image";
+                    die;
+                }
+                $tmpName = $_FILES['afficheUplode']['tmp_name'];
+                $Name = $_FILES['afficheUplode']['name'];
+                $fileName = "logo/" . $Name;
+                $résultUplod = move_uploaded_file($tmpName, $fileName);
+                if ($résultUplod) {
+                    echo "transfere terminer";
+                }
+                $id_user =  $_SESSION['id_user'];
+                $BDD->query("UPDATE `user` SET `logo`= '$fileName' WHERE `id_user` = '$id_user' ");
+                $_SESSION['logo'] = $fileName;
+                } ?>
             <form action="" method="POST">
                 <?php
 
@@ -69,7 +109,18 @@ $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=ut
 
                 ?>
                 <input class="lmyButton" type="submit" name="SuppUser" value="Supprimer mon compte" />
+                <a href="index.php">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                   Acceuil
+                </a>
             </form>
+            
+
+
+
         </div>
 
 
