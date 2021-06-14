@@ -83,10 +83,11 @@ $BDD = ConectionBDD();
 			<div id="featured">
 				<ul class="style1">
 
-					<?php $request = $BDD->query("SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` DESC");
+					<?php $request = $BDD->query("SELECT message.message, user.Pseudo, message.date, user.logo FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` DESC");
 					while ($tab = $request->fetch()) { ?>
 						<li>
 							<p class="date"><?php echo $tab['date'] ?></p>
+							<img src="<?php echo $tab['logo'] ?>" alt="erreur chargement image" class="logo"/>
 							<h3><?php echo $tab['Pseudo'] ?> </h3>
 							<p><?php echo $tab['message'] ?></p>
 						</li>

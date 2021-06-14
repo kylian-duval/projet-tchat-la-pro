@@ -1,6 +1,5 @@
 <?php try { 
     session_start();
-    session_start();
     if (!isset($_SESSION['id_user'] )) {
       header('Location: index.php');
     }
@@ -13,7 +12,6 @@
         session_destroy();
         echo '<meta http-equiv="refresh" content="0">';
     }
-    $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
     ?>
     <!DOCTYPE html>
     <html lang="fr">

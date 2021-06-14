@@ -17,11 +17,11 @@
 <ul class="style1">
     <div>
         <?php
-        $request = $BDD->query("SELECT message.message, user.Pseudo, message.date FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` DESC");
+        $request = $BDD->query("SELECT message.message, user.Pseudo, message.date, user.logo FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` DESC");
         while ($tab = $request->fetch()) { ?>
             <li>
                 <p class="date"><?php echo $tab['date'] ?></p>
-                <h3><?php echo $tab['Pseudo'] ?> </h3>
+                <h3><img src="<?php echo $tab['logo'] ?>" alt="erreur chargement image" class="logo" /><?php echo $tab['Pseudo'] ?> </h3>
                 <p><?php echo $tab['message'] ?></p>
             </li>
         <?php  } ?>
