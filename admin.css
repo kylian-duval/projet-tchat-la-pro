@@ -1,4 +1,6 @@
-
+body {
+    background-color: aqua;
+}
 
 .styled-table {
     border-collapse: collapse;
@@ -7,23 +9,27 @@
     font-family: sans-serif;
     min-width: 400px;
     border-radius: 5px 5px 0px 0px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 20px white;
 }
+
 .styled-table thead tr {
     background-color: #009879;
     color: #ffffff;
     text-align: left;
     font-style: oblique;
 }
+
 .styled-table td {
     background-color: #00c79f;
     color: #ffffff;
     text-align: left;
 }
+
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
 }
+
 .styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
 }
@@ -35,31 +41,34 @@
 .styled-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
+
 .login-box {
     position: absolute;
     top: 60%;
     left: 50%;
     width: 1000px;
     padding: 40px;
-    transform: translate(-50%, -50%);
-    background: rgba(0,0,0,.5);
+    transform: translate(-50%, -10%);
+    background: white;
     box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    box-shadow: 0 15px 25px white;
     border-radius: 10px;
-  }
+}
 
-  .login-box h2 {
+.login-box h2 {
     margin: 0 0 30px;
     padding: 0;
-    color: #fff;
     text-align: center;
-  }
-  span{
-      color:white;
-  }
-  h1{
-      color:white;
-  }
-  h4{
-      color:white;
-  }
+}
+
+span {
+    color: aqua;
+}
+
+h1 {
+    color: aqua;
+}
+
+h4 {
+    color: aqua;
+}

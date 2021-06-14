@@ -69,7 +69,9 @@ $BDD = ConectionBDD();
 				if (isset($_POST['envoyer'])) {
 					$dates = date('Y-m-d H:i:s');
 					$id_user = $_SESSION['id_user'];
-					$roquette = ("INSERT INTO `message` (`id_user`, `message`, `date`) VALUES ('$id_user',\"" . $_POST['message'] . "\", '$dates') ");
+					$mes = htmlspecialchars($_POST['message']);
+					//$roquette = ("INSERT INTO `message` (`id_user`, `message`, `date`) VALUES ('$id_user',\"" . $_POST['message'] . "\", '$dates') ");
+					$roquette = ("INSERT INTO `message` (`id_user`, `message`, `date`) VALUES ('$id_user','$mes', '$dates') ");
 					$BDD->query("$roquette");
 					//echo '<meta http-equiv="refresh" content="0">';
 				}
