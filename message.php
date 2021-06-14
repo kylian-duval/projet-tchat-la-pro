@@ -30,6 +30,8 @@
         <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
         <!--ajout des fonction en php + ajout de connection a le bdd-->
         <?php
+        require 'fonction.php';
+        $BDD = ConectionBDD();
         ?>
     </head>
 

@@ -15,6 +15,11 @@ function contact($nom, $prénom, $mail, $message, $BDD)
     $BDD->query("$roquette");
 }
 
+function ConectionBDD(){
+    $BDD = new PDO('mysql:host=mysql-kylian-duval.alwaysdata.net; dbname=kylian-duval_tchat;charset=utf8', '223354_admin', 'admin123456789.');
+    return $BDD;
+}
+
 
 
 

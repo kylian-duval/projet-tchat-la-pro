@@ -10,8 +10,9 @@ if (isset($_POST['deco'])) {
 	session_destroy();
 	echo '<meta http-equiv="refresh" content="0">';
 }
-$BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
 require 'fonction.php';
+$BDD = ConectionBDD();
+
 ?>
     <!DOCTYPE html>
     <html lang="fr">

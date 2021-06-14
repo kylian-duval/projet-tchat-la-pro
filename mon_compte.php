@@ -4,8 +4,6 @@
     if (!isset($_SESSION['id_user'])) {
         header('Location: connection.php');
     }
-
-    $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
     ?>
     <!DOCTYPE html>
     <html lang="fr">
@@ -20,14 +18,12 @@
         <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
         <title>Mon espace</title>
         <!--ajout des fonction en php + ajout de connection a le bdd-->
-        <?php include 'fonction.php';
+        <?php require 'fonction.php';
+        $BDD = ConectionBDD();
         ?>
     </head>
 
     <body>
-
-
-
         <div class="login-box">
             <h2>Compte</h2>
             <form action="" method="POST" enctype="multipart/form-data">

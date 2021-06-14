@@ -11,8 +11,8 @@
     <!DOCTYPE html>
     <?php
     // inclure le ficher avec tout les fonction
-    include 'fonction.php';
-    $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki'); ?>
+    require ('fonction.php');
+    $BDD = ConectionBDD(); ?>
 
     <html lang="fr">
 

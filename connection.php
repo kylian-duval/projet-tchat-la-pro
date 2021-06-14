@@ -18,8 +18,9 @@
         <link href="default.css" rel="stylesheet" type="text/css" media="all" />
         <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
         <!--ajout des fonction php + appel fonction pour se connecter a la bdd -->
-        <?php //include "fonction.php";
-        //$BDD = connectionbdd();  
+        <?php 
+        require ('fonction.php');
+        $BDD = ConectionBDD();  
         ?>
     </head>
 
@@ -55,12 +56,6 @@
 
             </form>
             <?php
-
-            ?>
-        </div>
-        <?php
-        $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki');
-
         if (isset($_POST['valide'])) {
             if (!empty($_POST['login']) and !empty($_POST['mdp'])) {
                 $requser = $BDD->prepare("SELECT * FROM user WHERE Pseudo = ? AND Mdp = ?");
@@ -75,13 +70,15 @@
                     //header('Location: index.php');
                     echo '<meta http-equiv="refresh" content="0">';
                 } else {
-                    echo "Mauvais mail ou mot de passe !";
+                    echo "<div style='color:red'>Mauvais mail ou mot de passe !</div>";
                 }
             } else {
-                echo "Tous les champs doivent être complétés !";
+                echo "<div style='color:red'>Tous les champs doivent être complétés !</div>";
             }
         }
         ?>
+        </div>
+       
 
 
     </body>

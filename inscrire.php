@@ -14,10 +14,11 @@
         <link href="default.css" rel="stylesheet" type="text/css" media="all" />
         <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
         <!--ajout des fonction php + appel fonction pour se connecter a la bdd -->
-        <?php require 'fonction.php' ?>
+        <?php require 'fonction.php' 
+        $BDD = ConectionBDD();
+        ?>
     </head>
-    <?php $BDD = new PDO('mysql:host=192.168.65.227; dbname=projet tchat_la-pro;charset=utf8', 'kiki', 'kiki'); ?>
-
+    
     <body>
         <div class="login-box">
             <h2>Inscription</h2>
