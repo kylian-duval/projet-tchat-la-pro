@@ -72,7 +72,7 @@
 
             </form>
             <?php
-            $request = $BDD->query("SELECT * FROM `message` WHERE 1"); ?>
+            $request = $BDD->query("SELECT * FROM `message` WHERE 1 ORDER BY `date`  DESC"); ?>
             <form action="" method="post">
                 <!-- tableau qui affiche les film -->
                 <table class="styled-table" border="2">
