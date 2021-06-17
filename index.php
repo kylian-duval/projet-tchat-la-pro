@@ -7,7 +7,7 @@ if (isset($_POST['deco'])) {
 	session_destroy();
 	echo '<meta http-equiv="refresh" content="0">';
 }
-require ('fonction.php');
+require('fonction.php');
 $BDD = ConectionBDD();
 ?>
 
@@ -85,12 +85,12 @@ $BDD = ConectionBDD();
 			<div id="featured">
 				<ul class="style1">
 
-					<?php $request = $BDD->query("SELECT message.message, user.Pseudo, message.date, user.logo FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` DESC");
+					<?php $request = $BDD->query("SELECT user.id_user, message.message, user.Pseudo, message.date, user.logo FROM message, user WHERE message.id_user = user.id_user ORDER BY `message`.`date` DESC");
 					while ($tab = $request->fetch()) { ?>
 						<li>
 							<p class="date"><?php echo $tab['date'] ?></p>
-							<img src="<?php echo $tab['logo'] ?>" alt="erreur chargement image" class="logo"/>
-							<h3><?php echo $tab['Pseudo'] ?> </h3>
+							<a href="pr"></a>
+							<a href="profil.php?id=<?=$tab['id_user'] ?>"><h3><img src="<?php echo $tab['logo'] ?>" alt="erreur chargement image" class="logo" /><?php echo $tab['Pseudo'] ?> </h3></a>
 							<p><?php echo $tab['message'] ?></p>
 						</li>
 					<?php  } ?>
